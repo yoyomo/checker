@@ -3,12 +3,12 @@ import { CheckerBoard } from './checker-board.mjs';
 
 export const view = dispatch => {
 
-    const CheckerBoardContent = CheckerBoard(dispatch);
-    
-    return model => 
-        div()([
-            ,
-            CheckerBoardContent(model)
-        ])
-    
+  const CheckerBoardContent = CheckerBoard(dispatch);
+
+  return model =>
+    div()([
+      ,
+      CheckerBoardContent(model)
+    ])
+
 }
