@@ -1,8 +1,8 @@
 //@flow
 import {muv} from 'muvjs/muv'
-import {model} from './model/model'
+import {initialModel} from './model/model'
 import {update} from './update/update'
 import {view} from './view/view'
+import {ignition} from './ignition/ignition'
 
-
-muv({model,update,view})('root')
+muv({model: initialModel,update,view, ignition})('root')

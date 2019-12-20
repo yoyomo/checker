@@ -4,7 +4,7 @@ import {View} from 'muvjs/muv-dom';
 */
 import { div } from "muvjs/muv-dom";
 
-const Piece /*: (props: {type: "circle" | "square", team: boolean}) => () => View */
+const Piece /*: (props: {type: "circle" | "square", team: 'one' | 'two'}) => () => View */
   = props => {
     let shapeStyle = "";
     if (props.type === "circle") {
@@ -22,13 +22,13 @@ const Piece /*: (props: {type: "circle" | "square", team: boolean}) => () => Vie
                     transform: translate(-50%, -50%);
                     position: absolute;
                     border: gold 2px solid;
-                    background-color: ${props.team ? "black" : "white"};`
+                    background-color: ${props.team === 'one' ? "black" : "white"};`
         })()
       )
   }
 
-export const CirclePiece /*: ({|team: boolean|}) => () => View */
+export const CirclePiece /*: ({|team: 'one' | 'two'|}) => () => View */
 = props => () => Piece({type: 'circle',...props})()
 
-export const SquarePiece /*: ({|team: boolean|}) => () => View */
+export const SquarePiece /*: ({|team: 'one' | 'two'|}) => () => View */
   = props => () => Piece({type: 'square',...props})()
