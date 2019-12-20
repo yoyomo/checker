@@ -22,26 +22,28 @@ export interface Model {
 */
 
 export const initialModel /*: Model */ = {
-  playerOne: {turn: true},
-  playerTwo: {turn: false},
-  rows: function(){
+  playerOne: { turn: true },
+  playerTwo: { turn: false },
+  rows: function () {
     const n = 8;
     let rows = [];
-  
+
     let colored = false;
     for (let c = 0; c < n; c++) {
-  
+
       let row = [];
       for (let r = 0; r < n; r++) {
         let piece = undefined;
 
-        if(c < 3 && colored){
-          piece = {team: 'two'};
-        } else if(c >= 5 && !colored){
-          piece = {team: 'one'};
+        if (colored) {
+          if (c < 3) {
+            piece = { team: 'two' };
+          } else if (c >= 5) {
+            piece = { team: 'one' };
+          }
         }
 
-        const cell = {colored,piece};
+        const cell = { colored, piece };
         row.push(cell);
         colored = !colored;
       }
