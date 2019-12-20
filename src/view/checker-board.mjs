@@ -19,7 +19,7 @@ export const CheckerBoard /*: Dispatch => Model => View*/
             row.map(cel => {
               return div({
                 style: `width: 75px; height: 75px;
-                            background-color: ${cel.colored ? "black" : "white"};`
+                            background-color: ${cel.dark ? "black" : "white"};`
               })(cel.piece && CirclePiece({ team: cel.piece.team })())
             })
           )

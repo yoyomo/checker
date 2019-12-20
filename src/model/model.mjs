@@ -6,12 +6,13 @@ export interface Piece {
 }
 
 export interface Cell {
-  colored: boolean,
+  dark: boolean,
   piece: Piece | void
 }
 
 export interface Player {
-  turn: boolean
+  turn: boolean,
+  captures: number
 }
 
 export interface Model {
@@ -21,36 +22,38 @@ export interface Model {
 } 
 */
 
-export const initialModel /*: Model */ = {
-  playerOne: { turn: true },
-  playerTwo: { turn: false },
-  rows: function () {
-    const n = 8;
-    let rows = [];
+const initRows = () => {
+  const n = 8;
+  let rows = [];
 
-    let colored = false;
-    for (let c = 0; c < n; c++) {
+  let dark = false;
+  for (let c = 0; c < n; c++) {
 
-      let row = [];
-      for (let r = 0; r < n; r++) {
-        let piece = undefined;
+    let row = [];
+    for (let r = 0; r < n; r++) {
+      let piece = undefined;
 
-        if (colored) {
-          if (c < 3) {
-            piece = { team: 'two' };
-          } else if (c >= 5) {
-            piece = { team: 'one' };
-          }
+      if (dark) {
+        if (c < 3) {
+          piece = { team: 'two' };
+        } else if (c >= 5) {
+          piece = { team: 'one' };
         }
-
-        const cell = { colored, piece };
-        row.push(cell);
-        colored = !colored;
       }
-      rows.push(row)
-      colored = !colored;
-    }
 
-    return rows;
-  }()
+      const cell = { dark, piece };
+      row.push(cell);
+      dark = !dark;
+    }
+    rows.push(row)
+    dark = !dark;
+  }
+
+  return rows;
+}
+
+export const initialModel /*: Model */ = {
+  playerOne: { turn: true, captures: 0 },
+  playerTwo: { turn: false, captures: 0 },
+  rows: initRows()
 }
