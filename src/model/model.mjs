@@ -1,24 +1,26 @@
 //@flow
 
 /*::
-export interface PieceType {
+export type Teams = 'one' | 'two'
+
+export type PieceType = {
   team: 'one' | 'two',
   type: 'circle' | 'square'
 }
 
-export interface Cell {
+export type Cell = {
   dark: boolean,
   piece: PieceType | void
 }
 
-export interface Player {
-  turn: boolean,
+export type Player = {
   captures: number
 }
 
-export interface Model {
+export type Model = {
   playerOne: Player,
   playerTwo: Player,
+  turn: Teams,
   rows: Cell[][],
   selectedPiecePosition: number[]
 } 
@@ -55,8 +57,9 @@ const initRows = () => {
 }
 
 export const initialModel /*: Model */ = {
-  playerOne: { turn: true, captures: 0 },
-  playerTwo: { turn: false, captures: 0 },
+  playerOne: { captures: 0 },
+  playerTwo: { captures: 0 },
+  turn: 'one',
   rows: initRows(),
   selectedPiecePosition: []
 }

@@ -12,9 +12,11 @@ export const view = dispatch => {
 
   return model =>
     div()([
-      ,
-      CheckerBoardContent(model),
-      button({onclick: dispatcher.reset})('Reset')
+      , CheckerBoardContent(model)
+      , button({onclick: dispatcher.reset})('Reset')
+      , div()("Players turn: "+ model.turn)
+      , div()("Player 1 captures: "+ model.playerOne.captures)
+      , div()("Player 2 captures: "+ model.playerTwo.captures)
     ])
 
 }

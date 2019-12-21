@@ -1,7 +1,7 @@
 //@flow
 /*::
 import {View} from 'muvjs/muv-dom';
-import {PieceType} from '../model/model';
+import type {PieceType} from '../model/model';
 */
 import { div } from "muvjs/muv-dom";
 
@@ -9,7 +9,8 @@ import { div } from "muvjs/muv-dom";
 interface PieceProps {
   piece: PieceType | void,
   selected: boolean,
-  onSelect: () => void
+  onSelect: () => void,
+  key: string
 }
 */
 
@@ -24,7 +25,8 @@ export const Piece /*: PieceProps => () => View */
       shapeStyle = "width:50%; height:50%;";
     }
     return () =>
-      div({ style: 'position: relative; width: 100%; height: 100%;',
+      div({ key: props.key,
+        style: 'position: relative; width: 100%; height: 100%;',
             onclick: props.onSelect })(
         div({
           style: `${shapeStyle}
