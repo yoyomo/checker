@@ -1,7 +1,6 @@
 //@flow
 
 import { initialModel } from "../model/model.mjs";
-import { resetInitialModel } from "../model/model.mjs";
 
 /*::
 import type {Model} from '../model/model'
@@ -11,7 +10,7 @@ export const update /*: Model => Action => {model: Model} */
 = model => action => {
   switch(action.type){
     case "reset":
-      model = resetInitialModel();
+      model = initialModel;
     break;
 
     case "select-piece":
@@ -35,9 +34,11 @@ export const update /*: Model => Action => {model: Model} */
 
       model = {...model};
       model.rows = model.rows.slice();
+      model.rows[action.r] = model.rows[action.r].slice();
       model.rows[action.r][action.c] = {...model.rows[action.r][action.c]};
       model.rows[action.r][action.c].piece = selectedPiece;
 
+      model.rows[model.selectedPiecePosition[0]] = model.rows[model.selectedPiecePosition[0]].slice();
       model.rows[model.selectedPiecePosition[0]][model.selectedPiecePosition[1]] = {...model.rows[model.selectedPiecePosition[0]][model.selectedPiecePosition[1]]};
       model.rows[model.selectedPiecePosition[0]][model.selectedPiecePosition[1]].piece = undefined;
 
@@ -45,6 +46,7 @@ export const update /*: Model => Action => {model: Model} */
         const jumpedR = model.selectedPiecePosition[0] + (action.r > model.selectedPiecePosition[0] ? 1 : - 1)
         const jumpedC = model.selectedPiecePosition[1] + (action.c > model.selectedPiecePosition[1] ? 1 : - 1)
 
+        model.rows[jumpedR] = model.rows[jumpedR].slice();
         model.rows[jumpedR][jumpedC] = {...model.rows[jumpedR][jumpedC]};
         model.rows[jumpedR][jumpedC].piece = undefined;
 
