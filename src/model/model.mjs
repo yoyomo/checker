@@ -22,7 +22,8 @@ export type Model = {
   playerTwo: Player,
   turn: Teams,
   rows: Cell[][],
-  selectedPiecePosition: number[]
+  selectedPiecePosition: number[],
+  justJumped: boolean
 } 
 */
 
@@ -61,5 +62,6 @@ export const initialModel /*: Model */ = {
   playerTwo: { captures: 0 },
   turn: 'one',
   rows: initRows(),
-  selectedPiecePosition: []
+  selectedPiecePosition: [],
+  justJumped: false
 }

@@ -93,7 +93,7 @@ export const CheckerBoard /*: Dispatch => Model => View*/
                   return jumpingCellPiece && jumpingCellPiece.team === opposingTeam;
                 }
 
-                const availableMove = isAvailable(1);
+                const availableMove = isAvailable(1) && !model.justJumped;
                 const availableJump = isAvailable(2) && isValidJump() && isJumpAvailable;
 
                 return div({

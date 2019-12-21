@@ -69,11 +69,13 @@ export const update /*: Model => Action => {model: Model} */
           }
 
           model.selectedPiecePosition = [action.r, action.c];
+          model.justJumped = true;
         }
 
         if (!jumpAvailable(model)) {
           model.selectedPiecePosition = [];
           model.turn = model.turn === 'one' ? 'two' : 'one';
+          model.justJumped = false;
         }
 
         break;
