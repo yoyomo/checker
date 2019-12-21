@@ -19,21 +19,29 @@ export const jumpAvailable /*: Model => boolean */
     const topCellRow = model.rows[sR - 1];
     const bottomCellRow = model.rows[sR + 1];
     const leftTopCell = !!topCellRow && topCellRow[sC - 1];
-    const leftTopPiece = !!leftTopCell && leftTopCell.piece;
     const rightTopCell = !!topCellRow && topCellRow[sC + 1];
-    const rightTopPiece = !!rightTopCell && rightTopCell.piece;
     const leftBottomCell = !!bottomCellRow && bottomCellRow[sC - 1];
-    const leftBottomPiece = !!leftBottomCell && leftBottomCell.piece;
     const rightBottomCell = !!bottomCellRow && bottomCellRow[sC + 1];
+
+    const leftTopPiece = !!leftTopCell && leftTopCell.piece;
+    const rightTopPiece = !!rightTopCell && rightTopCell.piece;
+    const leftBottomPiece = !!leftBottomCell && leftBottomCell.piece;
     const rightBottomPiece = !!rightBottomCell && rightBottomCell.piece;
+
+    const topTopCellRow = model.rows[sR - 2];
+    const bottomBottomCellRow = model.rows[sR + 2];
+    const leftLeftTopTopCell = !!topTopCellRow && topTopCellRow[sC - 2];
+    const rightRightTopTopCell = !!topTopCellRow && topTopCellRow[sC + 2];
+    const leftLeftBottomBottomCell = !!bottomBottomCellRow && bottomBottomCellRow[sC - 2];
+    const rightRightBottomBottomCell = !!bottomBottomCellRow && bottomBottomCellRow[sC + 2];
 
     return !!selectedPiece &&
       (
-        (selectedPiece.team === 'one' && (((!!leftTopPiece && leftTopPiece.team === "two") || (!!rightTopPiece && rightTopPiece.team === "two"))
-          || (selectedPiece.type === 'square' && (((!!leftBottomPiece && leftBottomPiece.team === "two") || (!!rightBottomPiece && rightBottomPiece.team === "two"))))))
+        (selectedPiece.team === 'one' && (((!!leftTopPiece && leftTopPiece.team === "two" && !!leftLeftTopTopCell && !leftLeftTopTopCell.piece) || (!!rightTopPiece && rightTopPiece.team === "two" && !!rightRightTopTopCell && !rightRightTopTopCell.piece))
+          || (selectedPiece.type === 'square' && (((!!leftBottomPiece && leftBottomPiece.team === "two" && !!leftLeftBottomBottomCell && !leftLeftBottomBottomCell.piece) || (!!rightBottomPiece && rightBottomPiece.team === "two" && !!rightRightBottomBottomCell && !rightRightBottomBottomCell.piece))))))
         ||
-        (selectedPiece.team === 'two' && (((!!leftBottomPiece && leftBottomPiece.team === "one") || (!!rightBottomPiece && rightBottomPiece.team === "one"))
-          || (selectedPiece.type === 'square' && (((!!leftTopPiece && leftTopPiece.team === "one") || (!!rightTopPiece && rightTopPiece.team === "one"))))))
+        (selectedPiece.team === 'two' && (((!!leftBottomPiece && leftBottomPiece.team === "one" && !!leftLeftBottomBottomCell && !leftLeftBottomBottomCell.piece) || (!!rightBottomPiece && rightBottomPiece.team === "one" && !!rightRightBottomBottomCell && !rightRightBottomBottomCell.piece))
+          || (selectedPiece.type === 'square' && (((!!leftTopPiece && leftTopPiece.team === "one" && !!leftLeftTopTopCell && !leftLeftTopTopCell.piece) || (!!rightTopPiece && rightTopPiece.team === "one" && !!rightRightTopTopCell && !rightRightTopTopCell.piece))))))
       );
 
   }
@@ -75,10 +83,18 @@ export const CheckerBoard /*: Dispatch => Model => View*/
                     );
                 }
 
-                const availableMove = isAvailable(1);
-                const availableJump = isAvailable(2) && isJumpAvailable;
+                const isValidJump = () => {
+                  const jumpingR = sR + (r > sR ? 1 : - 1)
+                  const jumpingC = sC + (c > sC ? 1 : - 1)
+                  const opposingTeam = model.turn === 'one' ? 'two' : 'one';
+                  const jumpingCellRow = model.rows[jumpingR];
+                  const jumpingCell = jumpingCellRow && jumpingCellRow[jumpingC];
+                  const jumpingCellPiece = jumpingCell && jumpingCell.piece;
+                  return jumpingCellPiece && jumpingCellPiece.team === opposingTeam;
+                }
 
-//TODO fix extra jump bug
+                const availableMove = isAvailable(1);
+                const availableJump = isAvailable(2) && isValidJump() && isJumpAvailable;
 
                 return div({
                   style: `width: 75px; height: 75px;

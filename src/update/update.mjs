@@ -32,7 +32,6 @@ export const update /*: Model => Action => {model: Model} */
         if (!selectedPiece) break;
         if (model.rows[action.r][action.c].piece) break;
 
-        // TODO convert to square
         if ((selectedPiece.team === 'one' && action.r === 0)
           || (selectedPiece.team === 'two' && action.r === 7)) {
             selectedPiece.type = "square";
