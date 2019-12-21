@@ -1,5 +1,6 @@
 const path = require('path');
 const outputPath = path.resolve(__dirname, './docs');
+const webpack = require('webpack');
 
 module.exports = {
   mode: 'development',

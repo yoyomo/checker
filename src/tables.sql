@@ -1,0 +1,6 @@
+-- CREATE DATABASE checker;
+
+CREATE TABLE sessions (
+ID SERIAL PRIMARY KEY,
+model JSONB NOT NULL
+);
