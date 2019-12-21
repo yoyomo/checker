@@ -27,13 +27,14 @@ export const update /*: Model => Action => {model: Model} */
       case "select-move":
         if (model.selectedPiecePosition.length === 0) break;
 
-        const selectedPiece = model.rows[model.selectedPiecePosition[0]][model.selectedPiecePosition[1]].piece;
+        let selectedPiece = model.rows[model.selectedPiecePosition[0]][model.selectedPiecePosition[1]].piece;
 
         if (!selectedPiece) break;
         if (model.rows[action.r][action.c].piece) break;
 
         if ((selectedPiece.team === 'one' && action.r === 0)
           || (selectedPiece.team === 'two' && action.r === 7)) {
+            selectedPiece = {...selectedPiece};
             selectedPiece.type = "square";
         }
 
