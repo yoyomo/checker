@@ -1,4 +1,5 @@
 const express = require('express')
+const path = require('path');
 const bodyParser = require('body-parser')
 const app = express()
 const port = process.env.PORT || 3000
@@ -18,8 +19,10 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.use(express.static(__dirname + '/docs'));
+
 app.get('/', (request, response) => {
-  response.json({ info: 'Node.js, Express, and Postgres API' })
+  response.sendFile(path.resolve(__dirname, 'index.html'));
 })
 
 app.get('/sessions/:id', db.getSessionById)
