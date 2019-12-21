@@ -11,7 +11,7 @@ import {reset} from '../update/actions';
 export const subscriptions /*: (Action => void) => Effect => void */
   = dispatch => {
 
-    const serverUrl = 'http://localhost:3000/sessions';
+    const serverUrl = process.env.APP_URL || 'http://localhost:3000/sessions';
 
     let sessionId = getCookie("session_id");
     if (sessionId) {

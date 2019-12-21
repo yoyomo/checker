@@ -14,6 +14,9 @@ module.exports = {
       type: 'javascript/auto'
     }]
   },
+  plugins: [
+    new webpack.EnvironmentPlugin(['APP_URL'])
+  ],
   devServer: {
     contentBase: outputPath
   },
