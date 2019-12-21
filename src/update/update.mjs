@@ -11,7 +11,17 @@ export const update /*: Model => Action => {model: Model} */
     case "reset":
       model = initialModel;
     break;
+
+    case "select-piece":
+      const cell = model.rows[action.r][action.c];
+      const piece = cell.piece;
+
+      if(piece.team === 'one' && !model.playerOne.turn) break;
+      if(piece.team === 'two' && !model.playerTwo.turn) break;
+
+      model.selectedPiecePosition = [action.r, action.c];
+    break;
   }
 
-  return {model}
+  return {model};
 }

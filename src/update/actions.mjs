@@ -14,5 +14,22 @@ export const reset /*: () => Reset */
 }
 
 /*::
+export interface SelectPiece {
+  type: 'select-piece',
+  r: number,
+  c: number
+}
+*/
+
+export const selectPiece /*: (number, number) => SelectPiece */
+= (r,c) => {
+  return {
+    type: 'select-piece',
+    r,
+    c
+  }
+}
+
+/*::
 export type Action = Reset
 */

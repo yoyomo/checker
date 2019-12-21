@@ -1,13 +1,14 @@
 //@flow
 
 /*::
-export interface Piece {
-  team: 'one' | 'two'
+export interface PieceType {
+  team: 'one' | 'two',
+  type: 'circle' | 'square'
 }
 
 export interface Cell {
   dark: boolean,
-  piece: Piece | void
+  piece: PieceType | void
 }
 
 export interface Player {
@@ -18,7 +19,8 @@ export interface Player {
 export interface Model {
   playerOne: Player,
   playerTwo: Player,
-  rows: Cell[][]
+  rows: Cell[][],
+  selectedPiecePosition: number[]
 } 
 */
 
@@ -35,9 +37,9 @@ const initRows = () => {
 
       if (dark) {
         if (c < 3) {
-          piece = { team: 'two' };
+          piece = { team: 'two', type: 'circle' };
         } else if (c >= 5) {
-          piece = { team: 'one' };
+          piece = { team: 'one', type: 'circle' };
         }
       }
 
@@ -55,5 +57,6 @@ const initRows = () => {
 export const initialModel /*: Model */ = {
   playerOne: { turn: true, captures: 0 },
   playerTwo: { turn: false, captures: 0 },
-  rows: initRows()
+  rows: initRows(),
+  selectedPiecePosition: []
 }

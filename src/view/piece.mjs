@@ -1,34 +1,40 @@
 //@flow
 /*::
 import {View} from 'muvjs/muv-dom';
+import {PieceType} from '../model/model';
 */
 import { div } from "muvjs/muv-dom";
 
-const Piece /*: (props: {type: "circle" | "square", team: 'one' | 'two'}) => () => View */
+/*::
+interface PieceProps {
+  piece: PieceType | void,
+  selected: boolean,
+  onSelect: () => void
+}
+*/
+
+export const Piece /*: PieceProps => () => View */
   = props => {
+    const piece = props.piece;
+    if(!piece) return () => null;
     let shapeStyle = "";
-    if (props.type === "circle") {
+    if (piece.type === "circle") {
       shapeStyle = "border-radius: 100%; width:75%; height:75%;"
-    } else if (props.type === "square") {
+    } else if (piece.type === "square") {
       shapeStyle = "width:50%; height:50%;";
     }
     return () =>
-      div({ style: 'position: relative; width: 100%; height: 100%;' })(
+      div({ style: 'position: relative; width: 100%; height: 100%;',
+            onclick: props.onSelect })(
         div({
           style: `${shapeStyle}
+                  ${props.selected ? 'border: red 3px solid;' : 'border: gold 2px solid;'}
                     top: 50%;
                     left: 50%;
                     -ms-transform: translate(-50%, -50%);
                     transform: translate(-50%, -50%);
                     position: absolute;
-                    border: gold 2px solid;
-                    background-color: ${props.team === 'one' ? "black" : "white"};`
+                    background-color: ${piece.team === 'one' ? "black" : "white"};`
         })()
       )
   }
-
-export const CirclePiece /*: ({|team: 'one' | 'two'|}) => () => View */
-= props => () => Piece({type: 'circle',...props})()
-
-export const SquarePiece /*: ({|team: 'one' | 'two'|}) => () => View */
-  = props => () => Piece({type: 'square',...props})()
