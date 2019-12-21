@@ -1,6 +1,7 @@
 //@flow
 
 import { initialModel } from "../model/model.mjs";
+import { resetInitialModel } from "../model/model.mjs";
 
 /*::
 import type {Model} from '../model/model'
@@ -10,7 +11,7 @@ export const update /*: Model => Action => {model: Model} */
 = model => action => {
   switch(action.type){
     case "reset":
-      model = initialModel;
+      model = resetInitialModel();
     break;
 
     case "select-piece":
@@ -33,6 +34,7 @@ export const update /*: Model => Action => {model: Model} */
       if(model.rows[action.r][action.c].piece) break;
 
       model = {...model};
+      model.rows = model.rows.slice();
       model.rows[action.r][action.c] = {...model.rows[action.r][action.c]};
       model.rows[action.r][action.c].piece = selectedPiece;
 

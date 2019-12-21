@@ -56,10 +56,15 @@ const initRows = () => {
   return rows;
 }
 
-export const initialModel /*: Model */ = {
-  playerOne: { captures: 0 },
-  playerTwo: { captures: 0 },
-  turn: 'one',
-  rows: initRows(),
-  selectedPiecePosition: []
+export const resetInitialModel /*: () => Model */
+= () => {
+  return {
+    playerOne: { captures: 0 },
+    playerTwo: { captures: 0 },
+    turn: 'one',
+    rows: initRows(),
+    selectedPiecePosition: []
+  }
 }
+
+export const initialModel = resetInitialModel()
