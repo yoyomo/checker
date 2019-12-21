@@ -13,7 +13,7 @@ export const update /*: Model => Action => {model: Model} */
 
     switch (action.type) {
       case "reset":
-        model = initialModel;
+        model = action.model || initialModel;
         break;
 
       case "select-piece":

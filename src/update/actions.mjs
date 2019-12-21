@@ -1,15 +1,19 @@
 //@flow
 
 /*::
+import type {Model} from '../model/model';
+
 export interface Reset {
-  type: 'reset'
+  type: 'reset',
+  model: Model | void
 }
 */
 
-export const reset /*: () => Reset */
-= () => {
+export const reset /*: (model: Model | void) => Reset */
+= model => {
   return {
-    type: 'reset'
+    type: 'reset',
+    model
   }
 }
 
