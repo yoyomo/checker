@@ -8,6 +8,36 @@ import { Piece } from "./piece.mjs";
 import { AvailableMove } from "./available-move.mjs";
 import { selectPiece, selectMove } from '../update/actions';
 
+export const jumpAvailable /*: Model => boolean */
+  = model => {
+    const sR = model.selectedPiecePosition[0];
+    const sC = model.selectedPiecePosition[1];
+    const selectedCellRow = model.rows[sR];
+    const selectedCell = selectedCellRow && selectedCellRow[sC];
+    const selectedPiece = selectedCell && selectedCell.piece;
+
+    const topCellRow = model.rows[sR - 1];
+    const bottomCellRow = model.rows[sR + 1];
+    const leftTopCell = !!topCellRow && topCellRow[sC - 1];
+    const leftTopPiece = !!leftTopCell && leftTopCell.piece;
+    const rightTopCell = !!topCellRow && topCellRow[sC + 1];
+    const rightTopPiece = !!rightTopCell && rightTopCell.piece;
+    const leftBottomCell = !!bottomCellRow && bottomCellRow[sC - 1];
+    const leftBottomPiece = !!leftBottomCell && leftBottomCell.piece;
+    const rightBottomCell = !!bottomCellRow && bottomCellRow[sC + 1];
+    const rightBottomPiece = !!rightBottomCell && rightBottomCell.piece;
+
+    return !!selectedPiece &&
+      (
+        (selectedPiece.team === 'one' && (((!!leftTopPiece && leftTopPiece.team === "two") || (!!rightTopPiece && rightTopPiece.team === "two"))
+          || (selectedPiece.type === 'square' && (((!!leftBottomPiece && leftBottomPiece.team === "two") || (!!rightBottomPiece && rightBottomPiece.team === "two"))))))
+        ||
+        (selectedPiece.team === 'two' && (((!!leftBottomPiece && leftBottomPiece.team === "one") || (!!rightBottomPiece && rightBottomPiece.team === "one"))
+          || (selectedPiece.type === 'square' && (((!!leftTopPiece && leftTopPiece.team === "one") || (!!rightTopPiece && rightTopPiece.team === "one"))))))
+      );
+
+  }
+
 export const CheckerBoard /*: Dispatch => Model => View*/
   = dispatch => {
 
@@ -23,6 +53,8 @@ export const CheckerBoard /*: Dispatch => Model => View*/
       const selectedCellRow = model.rows[sR];
       const selectedCell = selectedCellRow && selectedCellRow[sC];
       const selectedPiece = selectedCell && selectedCell.piece;
+
+      const isJumpAvailable = jumpAvailable(model);
 
       return div({ style: "width: 100%; height 100%; display: flex; flex-direction: column" })(
         model.rows.map((row, r) =>
@@ -44,21 +76,9 @@ export const CheckerBoard /*: Dispatch => Model => View*/
                 }
 
                 const availableMove = isAvailable(1);
-                const topCellRow = model.rows[sR - 1];
-                const bottomCellRow = model.rows[sR + 1];
-                const leftTopPiece = topCellRow && topCellRow[sC - 1].piece;
-                const rightTopPiece = topCellRow && topCellRow[sC + 1].piece;
-                const leftBottomPiece = bottomCellRow && bottomCellRow[sC - 1].piece;
-                const rightBottomPiece = bottomCellRow && bottomCellRow[sC + 1].piece;
-                const availableJump = isAvailable(2) && selectedPiece &&
-                  (
-                    (selectedPiece.team === 'one' && (((leftTopPiece && leftTopPiece.team === "two") || (rightTopPiece && rightTopPiece.team === "two"))
-                      || (selectedPiece.type === 'square' && (((leftBottomPiece && leftBottomPiece.team === "two") || (rightBottomPiece && rightBottomPiece.team === "two"))))))
-                    ||
-                    (selectedPiece.team === 'two' && (((leftBottomPiece && leftBottomPiece.team === "one") || (rightBottomPiece && rightBottomPiece.team === "one"))
-                      || (selectedPiece.type === 'square' && (((leftTopPiece && leftTopPiece.team === "one") || (rightTopPiece && rightTopPiece.team === "one"))))))
-                  );
+                const availableJump = isAvailable(2) && isJumpAvailable;
 
+//TODO fix extra jump bug
 
                 return div({
                   style: `width: 75px; height: 75px;
@@ -71,7 +91,7 @@ export const CheckerBoard /*: Dispatch => Model => View*/
                       AvailableMove({ key: `available-move-${r}-${c}`, onSelect: () => dispatcher.onSelectMove(r, c) })()
                       :
                       availableJump ?
-                      AvailableMove({ key: `available-jump-${r}-${c}`, onSelect: () => dispatcher.onSelectJump(r, c) })() : undefined
+                        AvailableMove({ key: `available-jump-${r}-${c}`, onSelect: () => dispatcher.onSelectJump(r, c) })() : undefined
 
                 )
               })
