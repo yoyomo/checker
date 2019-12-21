@@ -2,12 +2,15 @@
 
 import { initialModel } from "../model/model.mjs";
 import { jumpAvailable } from '../view/checker-board'
+import { saveToServer } from "../subscriptions/effects.mjs";
 /*::
 import type {Model} from '../model/model'
 import type {Action} from './actions'
 */
 export const update /*: Model => Action => {model: Model} */
   = model => action => {
+    let effects = [];
+
     switch (action.type) {
       case "reset":
         model = initialModel;
@@ -76,5 +79,7 @@ export const update /*: Model => Action => {model: Model} */
         break;
     }
 
-    return { model };
+    effects = effects.concat(saveToServer(model));
+
+    return { model, effects };
   }
