@@ -4,15 +4,18 @@ const webpack = require('webpack');
 
 module.exports = {
   mode: 'development',
-  entry: './src/index.mjs',
+  entry: './src/index.jsx',
   output: {
     path: outputPath,
     filename: 'bundle.js'
   },
   module: {
     rules: [{
-      test: /\.mjs$/,
-      type: 'javascript/auto'
+      test: /\.(js|jsx|mjs)$/,
+      type: 'javascript/auto',
+      use: {
+        loader: "babel-loader"
+      }
     }]
   },
   plugins: [

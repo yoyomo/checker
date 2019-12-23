@@ -1,7 +1,7 @@
 //@flow
 
 import { initialModel } from "../model/model.mjs";
-import { jumpAvailable } from '../view/checker-board'
+import { jumpAvailable } from '../view/checker-board.jsx'
 import { saveToServer } from "../subscriptions/effects.mjs";
 /*::
 import type {Model} from '../model/model'

@@ -27,8 +27,16 @@
     "webpack-dev-server": "^3.10.1"
   },
   "dependencies": {
+    "@babel/core": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
+    "@babel/preset-react": "^7.7.4",
+    "babel": "^6.23.0",
+    "babel-loader": "^8.0.6",
+    "babel-preset-react": "^6.24.1",
     "express": "^4.17.1",
-    "muvjs": "^2.3.2",
-    "pg": "^7.15.1"
+    "flow-upgrade": "^1.1.0",
+    "pg": "^7.15.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
   }
 }

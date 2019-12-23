@@ -3,9 +3,9 @@
 import type {Dispatch, View} from 'muvjs/muv-dom'
 import type {Model, PieceType} from '../model/model'
 */
-import { div } from "muvjs/muv-dom";
-import { Piece } from "./piece.mjs";
-import { AvailableMove } from "./available-move.mjs";
+import React from 'react';
+import { Piece } from "./piece.jsx";
+import { AvailableMove } from "./available-move.jsx";
 import { selectPiece, selectMove } from '../update/actions';
 
 export const jumpAvailable /*: Model => boolean */
@@ -64,12 +64,16 @@ export const CheckerBoard /*: Dispatch => Model => View*/
 
       const isJumpAvailable = jumpAvailable(model);
 
-      return div({ style: "width: 100%; height 100%; display: flex; flex-direction: column" })(
-        model.rows.map((row, r) =>
-          div({
-            style: `display: flex;
-                flex-direction: row`})(
-              row.map((cel, c) => {
+      return (
+        <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
+          {model.rows.map((row, r) =>
+            <div
+              key={`row-${r}`}
+              style={{
+                display: 'flex',
+                flexDirection: 'row'
+              }}>
+              {row.map((cel, c) => {
                 const piece /*: PieceType | void */ = cel.piece;
                 const isSelected = sR === r && sC === c;
 
@@ -96,22 +100,40 @@ export const CheckerBoard /*: Dispatch => Model => View*/
                 const availableMove = isAvailable(1) && !model.justJumped;
                 const availableJump = isAvailable(2) && isValidJump() && isJumpAvailable;
 
-                return div({
-                  style: `width: 75px; height: 75px;
-                            background-color: ${cel.dark ? "black" : "white"};`
-                })(
-                  piece ?
-                    Piece({ key: `piece-${r}-${c}`, piece, selected: isSelected, onSelect: () => dispatcher.onSelectPiece(r, c) })()
-                    :
-                    availableMove ?
-                      AvailableMove({ key: `available-move-${r}-${c}`, onSelect: () => dispatcher.onSelectMove(r, c) })()
+                return (
+                  <div
+                    key={`cel-${r}-${c}`}
+                    style={{
+                      width: '75px', height: '75px',
+                      backgroundColor: `${cel.dark ? "black" : "white"}`
+                    }}>
+                    {piece ?
+                      <Piece
+                        key={`piece-${r}-${c}`}
+                        piece={piece}
+                        selected={isSelected}
+                        onSelect={() => dispatcher.onSelectPiece(r, c)} />
                       :
-                      availableJump ?
-                        AvailableMove({ key: `available-jump-${r}-${c}`, onSelect: () => dispatcher.onSelectJump(r, c) })() : undefined
+                      availableMove ?
+                        <AvailableMove
+                          key={`available-move-${r}-${c}`}
+                          onSelect={() => dispatcher.onSelectMove(r, c)} />
+                        :
+                        availableJump ?
+                          <AvailableMove
+                            key={`available-jump-${r}-${c}`}
+                            onSelect={() => dispatcher.onSelectJump(r, c)} />
+                          :
+                          undefined
+                    }
+                  </div>
 
                 )
-              })
-            )
-        ))
+              })}
+            </div>
+          )}
+        </div>
+      )
     }
   }
+
